@@ -107,7 +107,7 @@ const View = ({char}) => {
             <ul className="char__comics-list">
                 {comics.length > 0 ? null : 'There is no comics with this character'};
                 {comics.map((item, i) => {
-                    if (i > 9) return;
+                    if (i > 9) return
                     return (
                         <li key={i}
                             className="char__comics-item">
