@@ -1,4 +1,6 @@
 import {Component} from "react";
+import PropTypes from "prop-types";
+
 import MarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/errorMessage";
 import Spinner from "../spinner/Spinner";
@@ -28,7 +30,7 @@ class CharInfo extends Component{
     updateChar = () => {
         const {charId} = this.props;
         if (!charId) {
-            return;
+            return
         }
 
         this.onCharLoading();
@@ -105,7 +107,7 @@ const View = ({char}) => {
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-                {comics.length > 0 ? null : 'There is no comics with this character'};
+                {comics.length > 0 ? null : 'There is no comics with this character'}
                 {comics.map((item, i) => {
                     if (i > 9) return
                     return (
@@ -119,5 +121,9 @@ const View = ({char}) => {
         </>
     )
 }
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
+};
 
 export default CharInfo;
