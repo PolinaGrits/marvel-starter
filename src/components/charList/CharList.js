@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 import './charList.scss';
@@ -15,6 +15,7 @@ class CharList extends Component{
         offset: 1541,
         charEnded: false
     }
+
 
     marvelService = new MarvelService();
 
@@ -59,15 +60,40 @@ class CharList extends Component{
         })
     }
 
+    itemRefs = [];
+
+    setRef = (ref) => {
+        this.itemRefs.push(ref);
+    }
+
+    focusOnItem = (id) => {
+        this.itemRefs[id].forEach(item => item.className.remove('char__item_selected'));
+        this.itemRefs[id].forEach(item => item.className.add('char__item_selected'));
+        this.itemRefs[id].focus();
+    }
+
+
     renderItems = (arr) => {
-        const items = arr.map(item => {
+        const items = arr.map((item, i) => {
             let imgStyle = {'objectFit':'cover'};
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = {'objectFit':'fill'};
             }
+            let clazz = "char__item";
             return(
-                <li className="char__item"
-                    onClick={() => this.props.onCharSelected(item.id)}
+                <li className={clazz}
+                    tabIndex={0}
+                    ref={this.setRef}
+                    onClick={() => {
+                        this.props.onCharSelected(item.id);
+                        this.focusOnItem(i)}
+                    }
+                    onKeyDown={(e) => {
+                        if(e.key === "" || e.key === "Enter") {
+                            this.props.onCharSelected(item.id);
+                            this.focusOnItem(i)
+                        }
+                    }}
                     key={item.id}>
                     <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
