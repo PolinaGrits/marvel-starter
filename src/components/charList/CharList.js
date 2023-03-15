@@ -12,7 +12,7 @@ class CharList extends Component{
         loading: true,
         error: false,
         newItemLoading: false,
-        offset: 1541,
+        offset: 210,
         charEnded: false
     }
 
@@ -41,7 +41,7 @@ class CharList extends Component{
     onCharListLoaded = (newCharList) => {
         let ended = false;
         if (newCharList.length < 9) {
-            ended = true
+            ended = true;
         }
         this.setState(({offset, charList}) => ({
             charList: [...charList, ...newCharList],
@@ -67,8 +67,8 @@ class CharList extends Component{
     }
 
     focusOnItem = (id) => {
-        this.itemRefs[id].forEach(item => item.className.remove('char__item_selected'));
-        this.itemRefs[id].forEach(item => item.className.add('char__item_selected'));
+        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemRefs[id].classList.add('char__item_selected');
         this.itemRefs[id].focus();
     }
 
@@ -79,22 +79,22 @@ class CharList extends Component{
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = {'objectFit':'fill'};
             }
-            let clazz = "char__item";
             return(
-                <li className={clazz}
+                <li className="char__item"
                     tabIndex={0}
                     ref={this.setRef}
+                    key={item.id}
                     onClick={() => {
                         this.props.onCharSelected(item.id);
-                        this.focusOnItem(i)}
-                    }
+                        this.focusOnItem(i);
+                    }}
                     onKeyDown={(e) => {
                         if(e.key === "" || e.key === "Enter") {
                             this.props.onCharSelected(item.id);
-                            this.focusOnItem(i)
+                            this.focusOnItem(i);
                         }
                     }}
-                    key={item.id}>
+                    >
                     <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
                 </li>
